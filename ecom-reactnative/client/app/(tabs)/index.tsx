@@ -9,7 +9,7 @@ const { width } = Dimensions.get('window')
 export default function Home() {
   return (
     <SafeAreaView className='flex-1' edges={['top']}>
-      <Header title='fiesta' showMenu showCart showLogo />
+      <Header  showMenu showCart showLogo />
 
       <ScrollView
         className='flex-1'
