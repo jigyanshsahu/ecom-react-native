@@ -15,7 +15,7 @@ export default function Header({
 }: HeaderProps) {
   const router = useRouter();
   return (
-    <View className="flex-row items-center justify-between px-4 py-3 bg-white border-b border-gray-100 relative h-14">
+    <View className="flex-row items-center justify-between px-4 py-3 bg-white border-b border-gray-100 relative h-15">
       {/* Left side */}
       <View className="flex-row items-center z-10 min-w-[80px]">
         {showBack && (
