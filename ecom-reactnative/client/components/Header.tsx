@@ -12,6 +12,7 @@ export default function Header({
   showCart,
   showMenu,
   showLogo,
+  itemCount = 0
 }: HeaderProps) {
   const router = useRouter();
   return (
@@ -48,8 +49,15 @@ export default function Header({
           </TouchableOpacity>
         )}
         {showCart && (
-          <TouchableOpacity onPress={() => router.push('/cart')} className="ml-2 p-1">
-            <Ionicons name="cart-outline" size={26} color={COLORS.primary} />
+          <TouchableOpacity onPress={() => router.push('/(tabs)/cart')} className="ml-2 p-1">
+           <View className="relative">
+             <Ionicons name="bag-outline" size={26} color={COLORS.primary} />
+            <View className="absolute -top-1 -right-1 bg-accent w-4 h-4 items-center justify-center rounded-full">
+              <Text className="text-white text-[10px] font-bold">
+                {itemCount}
+              </Text>
+            </View>
+           </View>
           </TouchableOpacity>
         )}
       </View>
