@@ -1,42 +1,126 @@
-import { View, Text, ScrollView, Dimensions, Image } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import Header from '@/components/Header'
-import { BANNERS } from '@/assets/assets'
+import {
+  View,
+  Text,
+  ScrollView,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Header from "@/components/Header";
+import { BANNERS, dummyProducts } from "@/assets/assets";
+import { useRouter } from "expo-router";
+import { CATEGORIES } from "@/constants";
+import CategoryItem from "@/components/CategoryItem";
+import { Product } from "@/constants/types";
 
-const { width } = Dimensions.get('window')
+const { width } = Dimensions.get("window");
 
 export default function Home() {
-  return (
-    <SafeAreaView className='flex-1' edges={['top']}>
-      <Header  showMenu showCart showLogo />
+  const router = useRouter();
+  const [activeBannerIndex, setActiveBannerIndex] = React.useState(0);
+  const [products, setProudcts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const categories = [{id: 'all', name: 'All', icon:"grid"},...CATEGORIES];
+const fetchproducts = async()=>{
+  setProudcts(dummyProducts);
+  setLoading(false);
 
-      <ScrollView
-        className='flex-1'
-        showsVerticalScrollIndicator={false}
-      >
+}
+useEffect(()=>{
+  fetchproducts();
+},[])
+   return (
+    <SafeAreaView className="flex-1" edges={["top"]}>
+      <Header showMenu showCart showLogo />
+
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* banner slider */}
-        <ScrollView
+        <View className="mb-6 ">
+             <ScrollView
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
-          className='h-48'
+          className="h-48"
+          onScroll={(event) => {
+            const scrollPosition = event.nativeEvent.contentOffset.x;
+            const newIndex = Math.floor(scrollPosition / width);
+            setActiveBannerIndex(newIndex);
+          }}
         >
           {BANNERS.map((banner, index) => (
             <View
               key={index}
               style={{ width }}
-              className='h-48 bg-gray-200 overflow-hidden'
+              className="h-48 bg-gray-200 overflow-hidden"
             >
               <Image
                 source={{ uri: banner.image }}
-                className='w-full h-full'
-                resizeMode='cover'
+                style={{ width: width, height: 200 }}
+                resizeMode="cover"
               />
+              <View className="absolute bottom-4  left-4 z-10">
+                <Text className="text-white text-2xl font-bold">
+                  {banner.title}
+                </Text>
+                <Text className="text-white text-sm font-medium">
+                  {banner.subtitle}
+                </Text>
+                <TouchableOpacity className="mt-2 bg-white px-4 py-2 rounded-full self-start">
+                  <Text className="text-primary font-bold text-xs">
+                    Get Now{" "}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View className="absolute inset-0 bg-black/40" />
             </View>
           ))}
         </ScrollView>
+        {/* pagenation  Dots*/}
+        <View className="flex-row justify-center mt-3 gap-2">
+          {BANNERS.map((_, index) => (
+            <View
+              key={index}
+              className={` h-2 rounded-full ${index === activeBannerIndex ? 'w-4 bg-primary' : 'w-2 bg-gray-300'}`}
+            />
+          ))}
+
+        </View>
+        </View>
+       {/* categories */}
+       <View className="mb-6">
+        <View className=" flex-row justify-between items-center mb-4">
+              <Text className=" text-xl font-bold text-primary">
+                Categories
+              </Text>
+        </View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {categories.map((cat:any)=>(
+           <CategoryItem key={cat.id}
+           item={cat}
+            isSelected={false}
+            onPress={()=>{ router.push({pathname:"/shop", params: {category: cat.id === 'all' ? '': cat.name}})}}
+           />
+          ))}
+
+        </ScrollView>
+       </View>
+          {/* {popular products} */}
+          <View className="mb-8">
+            <View>
+              <Text className="text-xl font-bold text-primary">
+                Popular
+              </Text>
+              <Text className="text-secondary text-sm">
+                See All
+              </Text>
+            </View>
+               
+          </View>
+
+
       </ScrollView>
     </SafeAreaView>
-  )
+  );
 }
