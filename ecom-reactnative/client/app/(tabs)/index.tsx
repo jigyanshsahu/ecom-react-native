@@ -109,36 +109,36 @@ export default function Home() {
         {/* Categories */}
         <View className="mb-6">
           <View className="flex-row justify-between items-center mb-4">
-            <Text className="text-xl font-bold text-primary">
-              Categories
-            </Text>
+            <Text className="text-xl font-bold text-primary">Categories</Text>
           </View>
 
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {categories.map((cat: any) => (
-              <CategoryItem
-                key={cat.id}
-                item={cat}
-                isSelected={false}
-                onPress={() => {
-                  router.push({
-                    pathname: "/shop",
-                    params: {
-                      category: cat.id === "all" ? "" : cat.id,
-                    },
-                  });
-                }}
-              />
-            ))}
-          </ScrollView>
+  <ScrollView
+  horizontal
+  showsHorizontalScrollIndicator={false}
+  contentContainerStyle={{ paddingHorizontal: 10 }}
+>
+  {categories.map((cat: any) => (
+    <CategoryItem
+      key={cat.id}
+      item={cat}
+      isSelected={false}
+      onPress={() => {
+        router.push({
+          pathname: "/shop",
+          params: {
+            category: cat.id === "all" ? "" : cat.id,
+          },
+        });
+      }}
+    />
+  ))}
+</ScrollView>
         </View>
 
         {/* Popular Products */}
         <View className="mb-8">
           <View className="flex-row justify-between items-center mb-4">
-            <Text className="text-xl font-bold text-primary">
-              Popular
-            </Text>
+            <Text className="text-xl font-bold text-primary">Popular</Text>
 
             <TouchableOpacity onPress={() => router.push("/shop")}>
               <Text className="text-secondary text-sm">See All</Text>
@@ -156,6 +156,21 @@ export default function Home() {
               ))}
             </View>
           )}
+        </View>
+        {/* newsLetterCTA  */}
+        <View className="bg-gray-100 p-6 rounded-2xl mb-20 items-center">
+          <Text className="text-2xl font-bold text-primary mb-2 text-center">
+            Join The Revolution
+          </Text>
+
+          <Text className="text-gray-600 text-center">
+            Subscribe to our newsletter and get 10% off your first purchase.
+          </Text>
+          <TouchableOpacity className=" bg-primary w-4/5 py-3  rounded-full items-center">
+            <Text className=" text-white font-medium text-base">
+              Subscribe Now
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>

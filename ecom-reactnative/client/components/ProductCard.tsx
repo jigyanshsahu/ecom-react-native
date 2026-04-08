@@ -55,6 +55,15 @@ export default function ProductCard({ product }: ProductCardProps) {
           </Text>
         </View>
               {/* product info */}
+      <View className="p-3">
+        <View className="flex-row items-center mb-1">
+          <Ionicons name="star" size={14} color='#FFD700' />
+          <Text className="text-secondary text-sm ml-1">
+
+          </Text>
+        </View>
+
+      </View>
       </TouchableOpacity>
     </Link>
   );
