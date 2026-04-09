@@ -13,8 +13,9 @@ const WishListcontext = createContext<WishlistContextType | undefined    >(undef
 
   }
   const toggleWishlist = async (product: Product) => {  
-       const exists = wishlist.find((p)=> p._id === product._id);
+      
        setwishlist((prev)=>{
+        const exists = prev.find((p)=> p._id === product._id);
         if(exists){
             return prev.filter((p)=> p._id !== product._id)
        }
@@ -43,4 +44,4 @@ const WishListcontext = createContext<WishlistContextType | undefined    >(undef
             throw new Error("useWishlist must be used within a WishListProvider");
         }
         return context;
-  };
+  };
